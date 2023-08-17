@@ -16,6 +16,7 @@
 /* INCLUDES */
 
 #include "Rte_NoFrostFreezer.hpp"
+#include "Arduino.h"
 
 /* END OF INCLUDES */
 
@@ -38,7 +39,7 @@ public:
     Std_ReturnType ruSwitchOff(void);
 
 protected:
-    /* Make other functions here */ 
+    /* Make other functions here */
 private:
 
 };

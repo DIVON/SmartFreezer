@@ -20,7 +20,7 @@
 #include <NoFrostFreezer.hpp>
 #include <Relay.hpp>
 #include <Settings.hpp>
-#include <SuperFreeze.hpp>
+#include <Switcher.hpp>
 #include <WebPageMqttSettings.hpp>
 #include <WebPageStatus.hpp>
 #include <WebPageWiFiSettings.hpp>
@@ -33,6 +33,7 @@
 /* Declaration of all component instances  */
 
 extern DS18B20Driver Rte_CI_CoolerTemperature;
+extern Switcher Rte_CI_EcoMode;
 extern Relay Rte_CI_Fan;
 extern FreezerManager Rte_CI_FreezerManager;
 extern DS18B20Driver Rte_CI_FreezerTemperature;
@@ -40,7 +41,7 @@ extern DefreezeRelay Rte_CI_HeaterChecker;
 extern MqttPublisher Rte_CI_MqttPublisher;
 extern NoFrostFreezer Rte_CI_NoFrostFreezer;
 extern Settings Rte_CI_Settings;
-extern SuperFreeze Rte_CI_SuperFreeze;
+extern Switcher Rte_CI_SuperFreeze;
 extern WebPageMqttSettings Rte_CI_WebPageMqttSettings;
 extern WebPageStatus Rte_CI_WebPageStatus;
 extern WebPageWiFiSettings Rte_CI_WebPageWiFiSettings;

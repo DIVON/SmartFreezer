@@ -33,8 +33,8 @@ public:
     Relay(const Rte_Relay &Rte);
 
     /* Component runnables */
-    Std_ReturnType ruSwitchOff(void);
-    Std_ReturnType ruSwitchOn(void);
+    Std_ReturnType ruOpen(void);
+    Std_ReturnType ruClose(void);
 
 protected:
     /* Make other functions here */ 

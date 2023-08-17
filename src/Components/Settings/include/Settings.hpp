@@ -26,6 +26,11 @@
 
 /* TYPE DEFINITIONS */
 
+struct FreezerSettings
+{
+
+};
+
 class Settings final: private Rte_Base_Settings
 {
 public:
@@ -38,7 +43,7 @@ public:
     Std_ReturnType ruSaveWiFiSettiings(void);
 
 protected:
-    /* Make other functions here */ 
+    /* Make other functions here */
 private:
 
 };

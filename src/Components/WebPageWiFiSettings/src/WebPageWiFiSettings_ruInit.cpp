@@ -49,7 +49,7 @@
 
 void WebPageWiFiSettings::ruInit(void)
 {
-    
+    //Rte.Register.Register()
 }
 
 /* END OF PUBLIC FUNCTION DEFINITIONS */

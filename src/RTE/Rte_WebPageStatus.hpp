@@ -33,11 +33,14 @@ struct Rte_WebPageStatus {
     /* Per Instance Memory Section */
     /* Port API Section */
     Rte_PDS_isrQualifiedTemperature_R CoolerTemperature;
+    Rte_PDS_isrActiveStatus_R EcoMode;
+    Rte_PDS_icsRelayControl_C EconomeModeActivation;
     Rte_PDS_isrSetPoints_R FreezerSetPoints;
     Rte_PDS_isrFreezerStatus_R FreezerStatus;
     Rte_PDS_isrQualifiedTemperature_R FreezerTemperature;
     Rte_PDS_icsNewFreezerSettings_C NewFreezerSetPoints;
     Rte_PDS_icsWebPageRegistration_C Register;
+    Rte_PDS_isrActiveStatus_R SuperFreeze;
     Rte_PDS_icsRelayControl_C SuperFreezeActivation;
     /* Calibration Parameter Handles Section */
 };

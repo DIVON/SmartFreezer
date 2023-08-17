@@ -49,6 +49,8 @@
 
 Std_ReturnType NoFrostFreezer::ruDefreazerSwitchOn(void)
 {
+    digitalWrite(Rte.CData_ActivationPin(), 1);
+    digitalWrite(Rte.CData_SwitcherPin(), 1);
     return Std_ReturnType::RTE_E_OK;
 }
 

@@ -17,6 +17,33 @@
 #include "Rte_DataTypes.hpp"
 
 /*************************************************************
+* BEGIN Port Data Structure Definition: isrActiveStatus
+ *************************************************************/
+
+/* Write functions */
+using isrActiveStatus_Activate_WriteFunc = Std_ReturnType(*)(const boolean &data) ;
+
+/* Read functions */
+using isrActiveStatus_Activate_ReadFunc = Std_ReturnType(*)(boolean &data) ;
+
+/* Writing port */
+
+struct Rte_PDS_isrActiveStatus_P
+{
+    isrActiveStatus_Activate_WriteFunc Write_Activate;
+};
+
+/* Reading port */
+
+struct Rte_PDS_isrActiveStatus_R
+{
+    isrActiveStatus_Activate_ReadFunc Read_Activate;
+};
+
+/*************************************************************
+* END Port Data Structure Definition: isrActiveStatus
+ *************************************************************/
+/*************************************************************
 * BEGIN Port Data Structure Definition: isrDefreezeRelayStatus
  *************************************************************/
 
@@ -168,33 +195,6 @@ struct Rte_PDS_isrSetPoints_R
 * END Port Data Structure Definition: isrSetPoints
  *************************************************************/
 /*************************************************************
-* BEGIN Port Data Structure Definition: isrSuperFreezing
- *************************************************************/
-
-/* Write functions */
-using isrSuperFreezing_Activate_WriteFunc = Std_ReturnType(*)(const boolean &data) ;
-
-/* Read functions */
-using isrSuperFreezing_Activate_ReadFunc = Std_ReturnType(*)(boolean &data) ;
-
-/* Writing port */
-
-struct Rte_PDS_isrSuperFreezing_P
-{
-    isrSuperFreezing_Activate_WriteFunc Write_Activate;
-};
-
-/* Reading port */
-
-struct Rte_PDS_isrSuperFreezing_R
-{
-    isrSuperFreezing_Activate_ReadFunc Read_Activate;
-};
-
-/*************************************************************
-* END Port Data Structure Definition: isrSuperFreezing
- *************************************************************/
-/*************************************************************
 * BEGIN Port Data Structure Definition: isrWiFiSettings
  *************************************************************/
 
@@ -282,7 +282,7 @@ struct Rte_PDS_icsNewWiFiSettings_C
  *************************************************************/
 
 /* Client-Server operations */
-using icsNoFrostControl_DefreazerSwitchOn_Func = Std_ReturnType(*)(void);
+using icsNoFrostControl_DefreezerSwitchOn_Func = Std_ReturnType(*)(void);
 using icsNoFrostControl_FreezerSwitchOn_Func = Std_ReturnType(*)(void);
 using icsNoFrostControl_SwitchOff_Func = Std_ReturnType(*)(void);
 
@@ -290,7 +290,7 @@ using icsNoFrostControl_SwitchOff_Func = Std_ReturnType(*)(void);
 
 struct Rte_PDS_icsNoFrostControl_C
 {
-    icsNoFrostControl_DefreazerSwitchOn_Func DefreazerSwitchOn;
+    icsNoFrostControl_DefreezerSwitchOn_Func DefreezerSwitchOn;
     icsNoFrostControl_FreezerSwitchOn_Func FreezerSwitchOn;
     icsNoFrostControl_SwitchOff_Func SwitchOff;
 };
@@ -320,15 +320,15 @@ struct Rte_PDS_icsNotification_C
  *************************************************************/
 
 /* Client-Server operations */
-using icsRelayControl_SwitchOff_Func = Std_ReturnType(*)(void);
-using icsRelayControl_SwitchOn_Func = Std_ReturnType(*)(void);
+using icsRelayControl_Close_Func = Std_ReturnType(*)(void);
+using icsRelayControl_Open_Func = Std_ReturnType(*)(void);
 
 /* Client port */
 
 struct Rte_PDS_icsRelayControl_C
 {
-    icsRelayControl_SwitchOff_Func SwitchOff;
-    icsRelayControl_SwitchOn_Func SwitchOn;
+    icsRelayControl_Close_Func Close;
+    icsRelayControl_Open_Func Open;
 };
 
 /*************************************************************
@@ -339,7 +339,7 @@ struct Rte_PDS_icsRelayControl_C
  *************************************************************/
 
 /* Client-Server operations */
-using icsWebPageRegistration_Register_Func = Std_ReturnType(*)(uint8 * page, uint8 * handleFunction);
+using icsWebPageRegistration_Register_Func = Std_ReturnType(*)(const uint8 * page, uint8 * handleFunction);
 
 /* Client port */
 

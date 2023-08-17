@@ -53,7 +53,8 @@ public:
     Rte_Base_DS18B20Driver(const Rte_DS18B20Driver &rte) : Rte(rte) {} 
 
     /* Abstract component's runnables */
-    virtual void ruRefresh(const Rte_DS18B20Driver * const instance) = 0;
+    virtual void ruInit(void) = 0;
+    virtual void ruRefresh(void) = 0;
 protected:
     const Rte_DS18B20Driver &Rte;
 private:

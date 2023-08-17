@@ -12,9 +12,9 @@
 
 #include "RunTimeEnvironment.hpp"
 
-#define RTE_TASKS_COUNT                                                         0
+#define RTE_TASKS_COUNT                                                         1
 
-#define RTE_SCHEDULER_STEPS                                                     0
+#define RTE_SCHEDULER_STEPS                                                     1
 
 /* One Rte Task pointer */
 typedef void (*Rte_Scheduler_Task)();
@@ -30,6 +30,9 @@ static uint32 schedulingCounter = 0u;
 
 static const Rte_Scheduler_Sequence  taskScheduling =
 {
+    {
+        Rte_Task_Runnable_OsTask1ms
+    }
 };
 
 void DoScheduling(void)

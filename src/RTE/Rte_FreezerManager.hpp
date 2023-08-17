@@ -32,15 +32,20 @@
 struct Rte_FreezerManager {
     /* Per Instance Memory Section */
     /* Port API Section */
+    Rte_PDS_isrQualifiedTemperature_R CoolerTemperature;
     Rte_PDS_isrDefreezeRelayStatus_R DefreezeRelayStatus;
+    Rte_PDS_isrActiveStatus_R EconomeMode;
     Rte_PDS_icsRelayControl_C Fan;
     Rte_PDS_icsNoFrostControl_C Freezer;
     Rte_PDS_isrQualifiedTemperature_R FreezerTemperature;
-    Rte_PDS_isrQualifiedTemperature_R RefrigeratorTemperature;
     Rte_PDS_isrSetPoints_R SetPoints;
     Rte_PDS_isrFreezerStatus_P Status;
-    Rte_PDS_isrSuperFreezing_R SuperFreeze;
+    Rte_PDS_isrActiveStatus_R SuperFreeze;
     /* Calibration Parameter Handles Section */
+    uint32 (*CData_DefreezingTimeSec)(void);
+    uint32 (*CData_MaxDefreezingTimeSec)(void);
+    uint32 (*CData_MaxFreezingTimeSec)(void);
+    uint32 (*CData_WaitingStartupTimeSec)(void);
 };
 
 /*************************************************************

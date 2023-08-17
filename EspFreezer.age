@@ -91,6 +91,19 @@
   </ComplexDataTypesList>
   <SenderReceiverInterfacesList>
     <Interface>
+      <Name>isrActiveStatus</Name>
+      <GUID>{ab66c85a-b61c-4bcb-98b1-9f87a2fa0852}</GUID>
+      <SenderReceiverInterfaceFieldsList>
+        <Field>
+          <Name>Activate</Name>
+          <GUID>{43e00d86-f28f-4803-b621-51d3667a54e4}</GUID>
+          <IsPointer>False</IsPointer>
+          <BaseDataTypeGUID>{372537b8-58de-4c84-a600-866fac85abc5}</BaseDataTypeGUID>
+        </Field>
+      </SenderReceiverInterfaceFieldsList>
+      <IsThreadIrqProtected>False</IsThreadIrqProtected>
+    </Interface>
+    <Interface>
       <Name>isrDefreezeRelayStatus</Name>
       <GUID>{1d18b3a5-2344-4271-941f-2436e3db9ccb}</GUID>
       <SenderReceiverInterfaceFieldsList>
@@ -180,19 +193,6 @@
       <IsThreadIrqProtected>False</IsThreadIrqProtected>
     </Interface>
     <Interface>
-      <Name>isrSuperFreezing</Name>
-      <GUID>{ab66c85a-b61c-4bcb-98b1-9f87a2fa0852}</GUID>
-      <SenderReceiverInterfaceFieldsList>
-        <Field>
-          <Name>Activate</Name>
-          <GUID>{43e00d86-f28f-4803-b621-51d3667a54e4}</GUID>
-          <IsPointer>False</IsPointer>
-          <BaseDataTypeGUID>{372537b8-58de-4c84-a600-866fac85abc5}</BaseDataTypeGUID>
-        </Field>
-      </SenderReceiverInterfaceFieldsList>
-      <IsThreadIrqProtected>False</IsThreadIrqProtected>
-    </Interface>
-    <Interface>
       <Name>isrWiFiSettings</Name>
       <GUID>{803a8aea-d5d0-42c0-991b-b01b1e68a656}</GUID>
       <SenderReceiverInterfaceFieldsList>
@@ -254,7 +254,7 @@
       <GUID>{c606058c-0545-47b4-b1a5-c9375867f1ea}</GUID>
       <ClientServerOperationList>
         <Operation>
-          <Name>DefreazerSwitchOn</Name>
+          <Name>DefreezerSwitchOn</Name>
           <GUID>{17fee040-3a94-45ad-b9ef-893833d5b376}</GUID>
           <ClientServerOperationFieldsList />
         </Operation>
@@ -288,13 +288,13 @@
       <GUID>{22a1d73f-c734-4c75-8bdd-24f9f62bfd3b}</GUID>
       <ClientServerOperationList>
         <Operation>
-          <Name>SwitchOff</Name>
-          <GUID>{87d37aac-bd36-4c59-917d-b45421245ee0}</GUID>
+          <Name>Close</Name>
+          <GUID>{27c65eb6-29e9-43f6-9f4f-d85bcb373099}</GUID>
           <ClientServerOperationFieldsList />
         </Operation>
         <Operation>
-          <Name>SwitchOn</Name>
-          <GUID>{27c65eb6-29e9-43f6-9f4f-d85bcb373099}</GUID>
+          <Name>Open</Name>
+          <GUID>{87d37aac-bd36-4c59-917d-b45421245ee0}</GUID>
           <ClientServerOperationFieldsList />
         </Operation>
       </ClientServerOperationList>
@@ -312,7 +312,7 @@
               <Name>page</Name>
               <GUID>{e85204d9-585a-4f44-a6d5-783594d329b6}</GUID>
               <BaseDataTypeGUID>{8546df92-6b47-4531-a265-15a0eb9796bd}</BaseDataTypeGUID>
-              <Direction>reference</Direction>
+              <Direction>const dt * vn</Direction>
             </Field>
             <Field>
               <Name>handleFunction</Name>
@@ -378,6 +378,10 @@
       </PortDefenitionsList>
       <RunnableDefenitionsList>
         <Runnable>
+          <Name>Init</Name>
+          <GUID>{561a7a6a-7eee-4559-b325-24ca3c258026}</GUID>
+        </Runnable>
+        <Runnable>
           <Name>Refresh</Name>
           <GUID>{b575a070-6414-4357-9ff0-745e6eb4f278}</GUID>
         </Runnable>
@@ -401,16 +405,34 @@
           <PeriodMs>5000</PeriodMs>
         </TimingEvent>
       </TimingEventList>
-      <OneTimeEventList />
+      <OneTimeEventList>
+        <OneTimeEvent>
+          <Name>etiOnce_Init</Name>
+          <GUID>{35c7956c-84e3-4d6f-b897-e2782a64d4eb}</GUID>
+          <RunnableGuid>{561a7a6a-7eee-4559-b325-24ca3c258026}</RunnableGuid>
+        </OneTimeEvent>
+      </OneTimeEventList>
     </ComponentDefenition>
     <ComponentDefenition>
       <Name>FreezerManager</Name>
       <GUID>{4f1b1a2e-7cb4-4eb9-a396-195e425602fd}</GUID>
       <PortDefenitionsList>
         <PortDefenition>
+          <Name>CoolerTemperature</Name>
+          <GUID>{c38758b9-2a5f-4c41-a46e-73acb10ece38}</GUID>
+          <InterfaceGUID>{3f2c0779-d376-4d47-8606-1370252ec3dc}</InterfaceGUID>
+          <PortType>Receiver</PortType>
+        </PortDefenition>
+        <PortDefenition>
           <Name>DefreezeRelayStatus</Name>
           <GUID>{8b4f7925-280e-45fc-b1d2-6ad26f11b6bb}</GUID>
           <InterfaceGUID>{1d18b3a5-2344-4271-941f-2436e3db9ccb}</InterfaceGUID>
+          <PortType>Receiver</PortType>
+        </PortDefenition>
+        <PortDefenition>
+          <Name>EconomeMode</Name>
+          <GUID>{df38e821-d345-4c96-8939-294e364fda89}</GUID>
+          <InterfaceGUID>{ab66c85a-b61c-4bcb-98b1-9f87a2fa0852}</InterfaceGUID>
           <PortType>Receiver</PortType>
         </PortDefenition>
         <PortDefenition>
@@ -428,12 +450,6 @@
         <PortDefenition>
           <Name>FreezerTemperature</Name>
           <GUID>{1466bb89-d728-49f6-ab4a-ecfc9488434d}</GUID>
-          <InterfaceGUID>{3f2c0779-d376-4d47-8606-1370252ec3dc}</InterfaceGUID>
-          <PortType>Receiver</PortType>
-        </PortDefenition>
-        <PortDefenition>
-          <Name>RefrigeratorTemperature</Name>
-          <GUID>{c38758b9-2a5f-4c41-a46e-73acb10ece38}</GUID>
           <InterfaceGUID>{3f2c0779-d376-4d47-8606-1370252ec3dc}</InterfaceGUID>
           <PortType>Receiver</PortType>
         </PortDefenition>
@@ -463,7 +479,28 @@
         </Runnable>
       </RunnableDefenitionsList>
       <PerInstanceMemoryDefenitionList />
-      <CDataDefenitionList />
+      <CDataDefenitionList>
+        <PerInstanceMemoryDefenition>
+          <Name>DefreezingTimeSec</Name>
+          <GUID>{a94e67dd-4ae9-4aee-89c5-b455cadafee4}</GUID>
+          <DatatypeGuid>{548a17a8-2b7c-4241-8429-d59949db71ba}</DatatypeGuid>
+        </PerInstanceMemoryDefenition>
+        <PerInstanceMemoryDefenition>
+          <Name>MaxDefreezingTimeSec</Name>
+          <GUID>{6048508e-f229-4c0b-b847-2a7705de77a6}</GUID>
+          <DatatypeGuid>{548a17a8-2b7c-4241-8429-d59949db71ba}</DatatypeGuid>
+        </PerInstanceMemoryDefenition>
+        <PerInstanceMemoryDefenition>
+          <Name>MaxFreezingTimeSec</Name>
+          <GUID>{18cb004a-4109-4b38-8bd3-85ea97b73ae1}</GUID>
+          <DatatypeGuid>{548a17a8-2b7c-4241-8429-d59949db71ba}</DatatypeGuid>
+        </PerInstanceMemoryDefenition>
+        <PerInstanceMemoryDefenition>
+          <Name>WaitingStartupTimeSec</Name>
+          <GUID>{076de29a-7a69-4a5f-aa16-0b59003105b7}</GUID>
+          <DatatypeGuid>{548a17a8-2b7c-4241-8429-d59949db71ba}</DatatypeGuid>
+        </PerInstanceMemoryDefenition>
+      </CDataDefenitionList>
       <MultipleInstantiation>False</MultipleInstantiation>
       <SyncClientServerEventList />
       <AsyncClientServerEventList />
@@ -600,12 +637,12 @@
       </PortDefenitionsList>
       <RunnableDefenitionsList>
         <Runnable>
-          <Name>SwitchOff</Name>
-          <GUID>{6d9ccd29-5143-45d5-a38f-aab62a48a03a}</GUID>
+          <Name>Close</Name>
+          <GUID>{6d706dc2-4ed6-425c-b835-8a7f21769dfd}</GUID>
         </Runnable>
         <Runnable>
-          <Name>SwitchOn</Name>
-          <GUID>{6d706dc2-4ed6-425c-b835-8a7f21769dfd}</GUID>
+          <Name>Open</Name>
+          <GUID>{6d9ccd29-5143-45d5-a38f-aab62a48a03a}</GUID>
         </Runnable>
       </RunnableDefenitionsList>
       <PerInstanceMemoryDefenitionList />
@@ -619,18 +656,18 @@
       <MultipleInstantiation>False</MultipleInstantiation>
       <SyncClientServerEventList>
         <ServerCallEvent>
-          <Name>syncEventControl_SwitchOff</Name>
-          <GUID>{61d9acca-70a9-4d78-a1cf-abab786a6e18}</GUID>
-          <RunnableGuid>{6d9ccd29-5143-45d5-a38f-aab62a48a03a}</RunnableGuid>
-          <SourcePortGuid>{b1d26019-a16f-4b75-a684-45e04ea51e9b}</SourcePortGuid>
-          <SourceOperationGuid>{87d37aac-bd36-4c59-917d-b45421245ee0}</SourceOperationGuid>
-        </ServerCallEvent>
-        <ServerCallEvent>
-          <Name>syncEventControl_SwitchOn</Name>
+          <Name>syncEventControl_Close</Name>
           <GUID>{7f1f7e5a-722f-45be-aa5c-90248c14a56f}</GUID>
           <RunnableGuid>{6d706dc2-4ed6-425c-b835-8a7f21769dfd}</RunnableGuid>
           <SourcePortGuid>{b1d26019-a16f-4b75-a684-45e04ea51e9b}</SourcePortGuid>
           <SourceOperationGuid>{27c65eb6-29e9-43f6-9f4f-d85bcb373099}</SourceOperationGuid>
+        </ServerCallEvent>
+        <ServerCallEvent>
+          <Name>syncEventControl_Open</Name>
+          <GUID>{61d9acca-70a9-4d78-a1cf-abab786a6e18}</GUID>
+          <RunnableGuid>{6d9ccd29-5143-45d5-a38f-aab62a48a03a}</RunnableGuid>
+          <SourcePortGuid>{b1d26019-a16f-4b75-a684-45e04ea51e9b}</SourcePortGuid>
+          <SourceOperationGuid>{87d37aac-bd36-4c59-917d-b45421245ee0}</SourceOperationGuid>
         </ServerCallEvent>
       </SyncClientServerEventList>
       <AsyncClientServerEventList />
@@ -729,7 +766,7 @@
       <OneTimeEventList />
     </ComponentDefenition>
     <ComponentDefenition>
-      <Name>SuperFreeze</Name>
+      <Name>Switcher</Name>
       <GUID>{63e31a4f-514f-46e0-baca-6f57eed96ba1}</GUID>
       <PortDefenitionsList>
         <PortDefenition>
@@ -774,7 +811,7 @@
           <DatatypeGuid>{548a17a8-2b7c-4241-8429-d59949db71ba}</DatatypeGuid>
         </PerInstanceMemoryDefenition>
       </CDataDefenitionList>
-      <MultipleInstantiation>False</MultipleInstantiation>
+      <MultipleInstantiation>True</MultipleInstantiation>
       <SyncClientServerEventList>
         <ServerCallEvent>
           <Name>syncEventActivation_SwitchOff</Name>
@@ -856,6 +893,18 @@
           <PortType>Receiver</PortType>
         </PortDefenition>
         <PortDefenition>
+          <Name>EcoMode</Name>
+          <GUID>{9c561d0c-7246-4307-a41a-80cbe4c7d930}</GUID>
+          <InterfaceGUID>{ab66c85a-b61c-4bcb-98b1-9f87a2fa0852}</InterfaceGUID>
+          <PortType>Receiver</PortType>
+        </PortDefenition>
+        <PortDefenition>
+          <Name>EconomeModeActivation</Name>
+          <GUID>{455fff93-0b44-46fb-85e6-c687904498d1}</GUID>
+          <InterfaceGUID>{22a1d73f-c734-4c75-8bdd-24f9f62bfd3b}</InterfaceGUID>
+          <PortType>Client</PortType>
+        </PortDefenition>
+        <PortDefenition>
           <Name>FreezerSetPoints</Name>
           <GUID>{07d79d69-27ed-4c78-8296-d94f5d775c0c}</GUID>
           <InterfaceGUID>{d79026f7-ffea-433c-a995-15c7d42eaed9}</InterfaceGUID>
@@ -884,6 +933,12 @@
           <GUID>{201d5c5e-d736-4c1f-ba3e-7905f116ddfd}</GUID>
           <InterfaceGUID>{c3d3f994-40b3-45eb-b7a1-13c94960384d}</InterfaceGUID>
           <PortType>Client</PortType>
+        </PortDefenition>
+        <PortDefenition>
+          <Name>SuperFreeze</Name>
+          <GUID>{3e7f545d-f0b6-4a0e-86e1-50080f9f4c44}</GUID>
+          <InterfaceGUID>{ab66c85a-b61c-4bcb-98b1-9f87a2fa0852}</InterfaceGUID>
+          <PortType>Receiver</PortType>
         </PortDefenition>
         <PortDefenition>
           <Name>SuperFreezeActivation</Name>
@@ -1100,7 +1155,65 @@
     </EnumDataType>
   </EnumsList>
   <SystemErrorsList />
-  <OsTasksList />
+  <OsTasksList>
+    <OsTask>
+      <Name>OsTask1ms</Name>
+      <GUID>{7615ab7d-37f3-4688-b3f2-08622950d216}</GUID>
+      <PeriodMs>1</PeriodMs>
+      <Priority>0</Priority>
+      <StackSizeInBytes>512</StackSizeInBytes>
+      <Guids>
+        <EventInstanceGuid>
+          <InstanceGuid>{06d0c8ef-6eac-4687-bf9c-9f7d56882403}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{582466b5-553c-40c4-beb8-53d6f0227020}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{a667cc46-088b-4df8-be10-62ebe30784a9}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{bd15404f-e59b-4639-8b2e-722c5ad30430}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{9fb0f0a2-0196-460b-a861-afe5d90ae8be}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{ca301b65-1ff5-40f9-b91f-d12a8b927cb8}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{486546b0-a506-4463-b789-a7a5fcc4b1a9}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{5ab77cc5-8330-4657-9714-01a351a247c5}</InstanceGuid>
+        </EventInstanceGuid>
+      </Guids>
+    </OsTask>
+    <OsTask>
+      <Name>Init</Name>
+      <GUID>{a51013c4-ef84-4bb2-831e-fb05eee09005}</GUID>
+      <PeriodMs>0</PeriodMs>
+      <Priority>0</Priority>
+      <StackSizeInBytes>128</StackSizeInBytes>
+      <Guids>
+        <EventInstanceGuid>
+          <InstanceGuid>{87bb73e0-e93a-4516-bc5e-fd4bc4d957eb}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{d5dc3ac3-8d09-4b17-80bf-4d0a2732ff13}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{d13ebdff-a923-427d-9654-f87b54b5c4cf}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{46c0d4dd-27b5-4042-a886-5ea71e303406}</InstanceGuid>
+        </EventInstanceGuid>
+        <EventInstanceGuid>
+          <InstanceGuid>{45290098-f070-4281-a263-e464b5a6af00}</InstanceGuid>
+        </EventInstanceGuid>
+      </Guids>
+    </OsTask>
+  </OsTasksList>
   <CompositionInstancesList>
     <CompositionInstance>
       <Name>Main</Name>
@@ -1162,8 +1275,93 @@
           </AutosarEventInstancesListTiming>
           <AutosarEventInstancesListSync />
           <AutosarEventInstancesListAsync />
-          <AutosarEventInstancesListOneTime />
+          <AutosarEventInstancesListOneTime>
+            <RunnableInstance>
+              <Name>OneTimingEvent_Template</Name>
+              <GUID>{46c0d4dd-27b5-4042-a886-5ea71e303406}</GUID>
+              <StartupOrder>3</StartupOrder>
+              <DefenitionGuid>{35c7956c-84e3-4d6f-b897-e2782a64d4eb}</DefenitionGuid>
+            </RunnableInstance>
+          </AutosarEventInstancesListOneTime>
           <ComponentDefenitionGuid>fa0d47b3-2407-4c79-a6bb-947436f61922</ComponentDefenitionGuid>
+        </ComponentInstance>
+        <ComponentInstance>
+          <Name>EcoMode</Name>
+          <GUID>{a66c7786-9fb9-4989-aea6-db0d0da92015}</GUID>
+          <Size>
+            <Left>-1638,29192640401</Left>
+            <Right>-1455,05330894378</Right>
+            <Top>-1375,14743729738</Top>
+            <Bottom>-1310,21330449869</Bottom>
+          </Size>
+          <PortPaintersList>
+            <PortPainter>
+              <Name>icsRelayControl</Name>
+              <GUID>{c3c4464f-a777-4c95-8013-a0b54d627954}</GUID>
+              <PortDefenitionGuid>{fdc96553-70ba-4dbe-82dd-bc5be250981d}</PortDefenitionGuid>
+              <ConnectionPortLocation>Left</ConnectionPortLocation>
+              <Size>
+                <Left>-1648,29192640401</Left>
+                <Right>-1628,29192640401</Right>
+                <Top>-1345,14743729738</Top>
+                <Bottom>-1325,14743729738</Bottom>
+              </Size>
+            </PortPainter>
+            <PortPainter>
+              <Name>isrSuperFreezing</Name>
+              <GUID>{7943b754-2b79-46cb-b19a-829b1b593365}</GUID>
+              <PortDefenitionGuid>{f8d5994b-8246-45fa-817e-faf91697f5c5}</PortDefenitionGuid>
+              <ConnectionPortLocation>Right</ConnectionPortLocation>
+              <Size>
+                <Left>-1465,05330894378</Left>
+                <Right>-1445,05330894378</Right>
+                <Top>-1345,14743729738</Top>
+                <Bottom>-1325,14743729738</Bottom>
+              </Size>
+            </PortPainter>
+          </PortPaintersList>
+          <PimInstancesList>
+            <PimInstance>
+              <Name>StartTime</Name>
+              <GUID>{2eb55e23-abec-4f6e-b4e4-7f7fbe31734b}</GUID>
+              <DefenitionGuid>{3961825d-bdb0-4347-8589-a46177a63591}</DefenitionGuid>
+              <PimDefaultValuesList>
+                <PimDefaultValue>
+                  <Name>StartTime</Name>
+                  <GUID>{2ff0fcc8-2ad2-44d1-aa06-fd020650430b}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue></DefaultValue>
+                </PimDefaultValue>
+              </PimDefaultValuesList>
+            </PimInstance>
+          </PimInstancesList>
+          <CDataInstancesList>
+            <CDataInstance>
+              <Name>SuperFreezeTimeSeconds</Name>
+              <GUID>{d06f4812-70ec-4403-90c4-89562e470ec0}</GUID>
+              <CDataDefaultValuesList>
+                <CDataDefaultValue>
+                  <Name>SuperFreezeTimeSeconds</Name>
+                  <GUID>{4793db29-bd03-44fd-a5a0-ba0a0d79f70a}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue>99999999</DefaultValue>
+                </CDataDefaultValue>
+              </CDataDefaultValuesList>
+              <DefenitionGuid>{0b55cc79-03aa-4513-9394-3f4db96acd3e}</DefenitionGuid>
+            </CDataInstance>
+          </CDataInstancesList>
+          <AutosarEventInstancesListTiming>
+            <RunnableInstance>
+              <Name>eti1000000us_Refresh</Name>
+              <GUID>{5ab77cc5-8330-4657-9714-01a351a247c5}</GUID>
+              <StartupOrder>8</StartupOrder>
+              <DefenitionGuid>{0aaef2c3-b32c-445d-8491-0592c04276eb}</DefenitionGuid>
+            </RunnableInstance>
+          </AutosarEventInstancesListTiming>
+          <AutosarEventInstancesListSync />
+          <AutosarEventInstancesListAsync />
+          <AutosarEventInstancesListOneTime />
+          <ComponentDefenitionGuid>63e31a4f-514f-46e0-baca-6f57eed96ba1</ComponentDefenitionGuid>
         </ComponentInstance>
         <ComponentInstance>
           <Name>Fan</Name>
@@ -1214,10 +1412,10 @@
           <Name>FreezerManager</Name>
           <GUID>{d8250775-96a5-47b4-b531-51c86f752172}</GUID>
           <Size>
-            <Left>-1305,8827590825</Left>
-            <Right>-1085</Right>
+            <Left>-1307,36076414076</Left>
+            <Right>-1075</Right>
             <Top>-1777,85282487861</Top>
-            <Bottom>-1225</Bottom>
+            <Bottom>-1240</Bottom>
           </Size>
           <PortPaintersList>
             <PortPainter>
@@ -1226,8 +1424,8 @@
               <PortDefenitionGuid>{1099adb7-2921-4f9a-bf62-1aa64715cb79}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1095</Left>
-                <Right>-1075</Right>
+                <Left>-1085</Left>
+                <Right>-1065</Right>
                 <Top>-1736,90080594938</Top>
                 <Bottom>-1716,90080594938</Bottom>
               </Size>
@@ -1238,8 +1436,8 @@
               <PortDefenitionGuid>{d0756dbe-688e-4c8e-a8a6-13b7a238a45f}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1095</Left>
-                <Right>-1075</Right>
+                <Left>-1085</Left>
+                <Right>-1065</Right>
                 <Top>-1586,11632640866</Top>
                 <Bottom>-1566,11632640866</Bottom>
               </Size>
@@ -1250,8 +1448,8 @@
               <PortDefenitionGuid>{c38758b9-2a5f-4c41-a46e-73acb10ece38}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,8827590825</Left>
-                <Right>-1295,8827590825</Right>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
                 <Top>-1729,35791896053</Top>
                 <Bottom>-1709,35791896053</Bottom>
               </Size>
@@ -1262,8 +1460,8 @@
               <PortDefenitionGuid>{1466bb89-d728-49f6-ab4a-ecfc9488434d}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,8827590825</Left>
-                <Right>-1295,8827590825</Right>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
                 <Top>-1633,46134515495</Top>
                 <Bottom>-1613,46134515495</Bottom>
               </Size>
@@ -1274,8 +1472,8 @@
               <PortDefenitionGuid>{eee01144-916c-486d-8e60-edd280a8f4b3}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1095</Left>
-                <Right>-1075</Right>
+                <Left>-1085</Left>
+                <Right>-1065</Right>
                 <Top>-1407,57303031369</Top>
                 <Bottom>-1387,57303031369</Bottom>
               </Size>
@@ -1286,10 +1484,10 @@
               <PortDefenitionGuid>{723e5eec-7d61-41c6-85cc-20baa07cf863}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,8827590825</Left>
-                <Right>-1295,8827590825</Right>
-                <Top>-1293,47469170193</Top>
-                <Bottom>-1273,47469170193</Bottom>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
+                <Top>-1287,78576650284</Top>
+                <Bottom>-1267,78576650284</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1298,10 +1496,10 @@
               <PortDefenitionGuid>{94eb4eaa-3fb0-42c4-b982-b9b3ec1c1c0e}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,8827590825</Left>
-                <Right>-1295,8827590825</Right>
-                <Top>-1489,25972625261</Top>
-                <Bottom>-1469,25972625261</Bottom>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
+                <Top>-1524,73184765086</Top>
+                <Bottom>-1504,73184765086</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1310,20 +1508,85 @@
               <PortDefenitionGuid>{8b4f7925-280e-45fc-b1d2-6ad26f11b6bb}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,8827590825</Left>
-                <Right>-1295,8827590825</Right>
-                <Top>-1376,61821171084</Top>
-                <Bottom>-1356,61821171084</Bottom>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
+                <Top>-1425,39237863344</Top>
+                <Bottom>-1405,39237863344</Bottom>
+              </Size>
+            </PortPainter>
+            <PortPainter>
+              <Name>ERROR</Name>
+              <GUID>{368bec0e-1459-4974-ace5-3e5dbef1ba37}</GUID>
+              <PortDefenitionGuid>{df38e821-d345-4c96-8939-294e364fda89}</PortDefenitionGuid>
+              <ConnectionPortLocation>Left</ConnectionPortLocation>
+              <Size>
+                <Left>-1317,36076414076</Left>
+                <Right>-1297,36076414076</Right>
+                <Top>-1345,15746274141</Top>
+                <Bottom>-1325,15746274141</Bottom>
               </Size>
             </PortPainter>
           </PortPaintersList>
           <PimInstancesList />
-          <CDataInstancesList />
+          <CDataInstancesList>
+            <CDataInstance>
+              <Name>DefreezingTimeSec</Name>
+              <GUID>{2f8e4d82-5048-4a2e-9ff6-d60468883d6b}</GUID>
+              <CDataDefaultValuesList>
+                <CDataDefaultValue>
+                  <Name>DefreezingTimeSec</Name>
+                  <GUID>{d981463f-c50e-4d5f-b02b-480bddeb844d}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue>10*60</DefaultValue>
+                </CDataDefaultValue>
+              </CDataDefaultValuesList>
+              <DefenitionGuid>{a94e67dd-4ae9-4aee-89c5-b455cadafee4}</DefenitionGuid>
+            </CDataInstance>
+            <CDataInstance>
+              <Name>MaxDefreezingTimeSec</Name>
+              <GUID>{9870a4ad-03a0-4572-b12e-d4bce3d44bb5}</GUID>
+              <CDataDefaultValuesList>
+                <CDataDefaultValue>
+                  <Name>MaxDefreezingTimeSec</Name>
+                  <GUID>{3f046757-dbcd-4624-924d-3840ef8d627a}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue>20*60</DefaultValue>
+                </CDataDefaultValue>
+              </CDataDefaultValuesList>
+              <DefenitionGuid>{6048508e-f229-4c0b-b847-2a7705de77a6}</DefenitionGuid>
+            </CDataInstance>
+            <CDataInstance>
+              <Name>MaxFreezingTimeSec</Name>
+              <GUID>{8da09fe8-46bf-4ca1-95b8-e3d6acc75da5}</GUID>
+              <CDataDefaultValuesList>
+                <CDataDefaultValue>
+                  <Name>MaxFreezingTimeSec</Name>
+                  <GUID>{11516206-624e-41eb-8cc9-b8361b59a111}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue>12*60*60</DefaultValue>
+                </CDataDefaultValue>
+              </CDataDefaultValuesList>
+              <DefenitionGuid>{18cb004a-4109-4b38-8bd3-85ea97b73ae1}</DefenitionGuid>
+            </CDataInstance>
+            <CDataInstance>
+              <Name>WaitingStartupTimeSec</Name>
+              <GUID>{d8449ac2-b49c-4582-8964-b81b6d59e14d}</GUID>
+              <CDataDefaultValuesList>
+                <CDataDefaultValue>
+                  <Name>WaitingStartupTimeSec</Name>
+                  <GUID>{e356123e-de66-44d6-9c37-4a7d0f541282}</GUID>
+                  <FieldGuid>{00000000-0000-0000-0000-000000000000}</FieldGuid>
+                  <DefaultValue>12*60*60</DefaultValue>
+                </CDataDefaultValue>
+              </CDataDefaultValuesList>
+              <DefenitionGuid>{076de29a-7a69-4a5f-aa16-0b59003105b7}</DefenitionGuid>
+            </CDataInstance>
+          </CDataInstancesList>
           <AutosarEventInstancesListTiming>
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{bd15404f-e59b-4639-8b2e-722c5ad30430}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>3</StartupOrder>
               <DefenitionGuid>{cc7f030e-cef8-4e2f-a472-86f5a6cd1368}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
@@ -1375,23 +1638,30 @@
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{582466b5-553c-40c4-beb8-53d6f0227020}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>1</StartupOrder>
               <DefenitionGuid>{29f15d25-5336-41a0-b110-e31343e32901}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
           <AutosarEventInstancesListSync />
           <AutosarEventInstancesListAsync />
-          <AutosarEventInstancesListOneTime />
+          <AutosarEventInstancesListOneTime>
+            <RunnableInstance>
+              <Name>OneTimingEvent_Template</Name>
+              <GUID>{45290098-f070-4281-a263-e464b5a6af00}</GUID>
+              <StartupOrder>4</StartupOrder>
+              <DefenitionGuid>{35c7956c-84e3-4d6f-b897-e2782a64d4eb}</DefenitionGuid>
+            </RunnableInstance>
+          </AutosarEventInstancesListOneTime>
           <ComponentDefenitionGuid>fa0d47b3-2407-4c79-a6bb-947436f61922</ComponentDefenitionGuid>
         </ComponentInstance>
         <ComponentInstance>
           <Name>HeaterChecker</Name>
           <GUID>{c8ae2b98-07f9-4aa0-9074-01706e38c8ae}</GUID>
           <Size>
-            <Left>-1652,34087613781</Left>
-            <Right>-1469,50766374543</Right>
-            <Top>-1410,92674032393</Top>
-            <Bottom>-1345,95121342695</Bottom>
+            <Left>-1641,99484072999</Left>
+            <Right>-1459,16162833761</Right>
+            <Top>-1461,17891230479</Top>
+            <Bottom>-1396,20338540781</Bottom>
           </Size>
           <PortPaintersList>
             <PortPainter>
@@ -1400,10 +1670,10 @@
               <PortDefenitionGuid>{9c06d454-4f50-4daf-a802-a54339ab7cb0}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1479,50766374543</Left>
-                <Right>-1459,50766374543</Right>
-                <Top>-1376,22376126484</Top>
-                <Bottom>-1356,22376126484</Bottom>
+                <Left>-1469,16162833761</Left>
+                <Right>-1449,16162833761</Right>
+                <Top>-1426,4759332457</Top>
+                <Bottom>-1406,4759332457</Bottom>
               </Size>
             </PortPainter>
           </PortPaintersList>
@@ -1427,7 +1697,7 @@
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{9fb0f0a2-0196-460b-a861-afe5d90ae8be}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>4</StartupOrder>
               <DefenitionGuid>{56dd8aa2-d0cb-4ce4-992f-ae236da02a07}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
@@ -1440,10 +1710,10 @@
           <Name>MqttPublisher</Name>
           <GUID>{d1b75312-34f3-41a3-bc84-c7c5a30d3138}</GUID>
           <Size>
-            <Left>-673,319849547304</Left>
-            <Right>-427,282444832831</Right>
-            <Top>-1171,58935287838</Top>
-            <Bottom>-1025</Bottom>
+            <Left>-705,835960829035</Left>
+            <Right>-459,798556114562</Right>
+            <Top>-1300,17579294705</Top>
+            <Bottom>-1153,58644006867</Bottom>
           </Size>
           <PortPaintersList>
             <PortPainter>
@@ -1452,10 +1722,10 @@
               <PortDefenitionGuid>{d5fda550-de1e-4fbc-8ff0-baadda021521}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-683,319849547304</Left>
-                <Right>-663,319849547304</Right>
-                <Top>-1130,50310232728</Top>
-                <Bottom>-1110,50310232728</Bottom>
+                <Left>-715,835960829035</Left>
+                <Right>-695,835960829035</Right>
+                <Top>-1259,08954239595</Top>
+                <Bottom>-1239,08954239595</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1464,10 +1734,10 @@
               <PortDefenitionGuid>{18296f1b-cdc0-4833-8e8d-ef1681c3d40a}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-683,319849547304</Left>
-                <Right>-663,319849547304</Right>
-                <Top>-1093,89285152441</Top>
-                <Bottom>-1073,89285152441</Bottom>
+                <Left>-715,835960829035</Left>
+                <Right>-695,835960829035</Right>
+                <Top>-1222,47929159308</Top>
+                <Bottom>-1202,47929159308</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1476,10 +1746,10 @@
               <PortDefenitionGuid>{609803d6-6681-47a7-b1cf-7623b2cc9587}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-683,319849547304</Left>
-                <Right>-663,319849547304</Right>
-                <Top>-1065,63575442445</Top>
-                <Bottom>-1045,63575442445</Bottom>
+                <Left>-715,835960829035</Left>
+                <Right>-695,835960829035</Right>
+                <Top>-1194,22219449312</Top>
+                <Bottom>-1174,22219449312</Bottom>
               </Size>
             </PortPainter>
           </PortPaintersList>
@@ -1489,7 +1759,7 @@
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{486546b0-a506-4463-b789-a7a5fcc4b1a9}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>6</StartupOrder>
               <DefenitionGuid>{521af34f-5ac2-45cf-a34b-93196ad4cda9}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
@@ -1663,10 +1933,10 @@
           <Name>SuperFreeze</Name>
           <GUID>{ca1f7463-4a5a-4f76-9e73-bbd98b5ae4d9}</GUID>
           <Size>
-            <Left>-1656,02150127865</Left>
-            <Right>-1467,10318213058</Right>
-            <Top>-1536,74579426042</Top>
-            <Bottom>-1451,315807785</Bottom>
+            <Left>-1645,67546587083</Left>
+            <Right>-1456,75714672276</Right>
+            <Top>-1572,21791565867</Top>
+            <Bottom>-1486,78792918325</Bottom>
           </Size>
           <PortPaintersList>
             <PortPainter>
@@ -1675,10 +1945,10 @@
               <PortDefenitionGuid>{f8d5994b-8246-45fa-817e-faf91697f5c5}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1477,10318213058</Left>
-                <Right>-1457,10318213058</Right>
-                <Top>-1489,80177217631</Top>
-                <Bottom>-1469,80177217631</Bottom>
+                <Left>-1466,75714672276</Left>
+                <Right>-1446,75714672276</Right>
+                <Top>-1525,27389357456</Top>
+                <Bottom>-1505,27389357456</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1687,10 +1957,10 @@
               <PortDefenitionGuid>{fdc96553-70ba-4dbe-82dd-bc5be250981d}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1666,02150127865</Left>
-                <Right>-1646,02150127865</Right>
-                <Top>-1492,4537484488</Top>
-                <Bottom>-1472,4537484488</Bottom>
+                <Left>-1655,67546587083</Left>
+                <Right>-1635,67546587083</Right>
+                <Top>-1527,92586984705</Top>
+                <Bottom>-1507,92586984705</Bottom>
               </Size>
             </PortPainter>
           </PortPaintersList>
@@ -1728,7 +1998,7 @@
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{a667cc46-088b-4df8-be10-62ebe30784a9}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>2</StartupOrder>
               <DefenitionGuid>{0aaef2c3-b32c-445d-8491-0592c04276eb}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
@@ -1803,10 +2073,10 @@
           <Name>WebPageStatus</Name>
           <GUID>{be2ca16c-ca32-4ac7-8079-f9542082b4c7}</GUID>
           <Size>
-            <Left>-1305,57470655395</Left>
-            <Right>-1055</Right>
-            <Top>-2084,6010834857</Top>
-            <Bottom>-1869,60108348569</Bottom>
+            <Left>-1304,46359544284</Left>
+            <Right>-1053,88888888889</Right>
+            <Top>-2094,04552793015</Top>
+            <Bottom>-1794,44444444444</Bottom>
           </Size>
           <PortPaintersList>
             <PortPainter>
@@ -1815,10 +2085,10 @@
               <PortDefenitionGuid>{eea83143-5a66-4784-a5ed-9165c73dda3a}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,57470655395</Left>
-                <Right>-1295,57470655395</Right>
-                <Top>-1932,63087640619</Top>
-                <Bottom>-1912,63087640619</Bottom>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1937,07532085063</Top>
+                <Bottom>-1917,07532085063</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1827,10 +2097,10 @@
               <PortDefenitionGuid>{6be4436e-fdaf-4a1a-bae7-548111a557dd}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,57470655395</Left>
-                <Right>-1295,57470655395</Right>
-                <Top>-1899,60108348569</Top>
-                <Bottom>-1879,60108348569</Bottom>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1904,04552793013</Top>
+                <Bottom>-1884,04552793013</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1839,10 +2109,10 @@
               <PortDefenitionGuid>{01241eab-e6d3-40b9-8842-be71f552d1d3}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,57470655395</Left>
-                <Right>-1295,57470655395</Right>
-                <Top>-1959,6150346628</Top>
-                <Bottom>-1939,6150346628</Bottom>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1964,17059021836</Top>
+                <Bottom>-1944,17059021836</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1851,10 +2121,10 @@
               <PortDefenitionGuid>{e5709b22-d972-475f-9fb5-5353ecb7fa00}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1065</Left>
-                <Right>-1045</Right>
-                <Top>-1902,03303534689</Top>
-                <Bottom>-1882,03303534689</Bottom>
+                <Left>-1063,88888888889</Left>
+                <Right>-1043,88888888889</Right>
+                <Top>-1906,47747979133</Top>
+                <Bottom>-1886,47747979133</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1863,10 +2133,10 @@
               <PortDefenitionGuid>{201d5c5e-d736-4c1f-ba3e-7905f116ddfd}</PortDefenitionGuid>
               <ConnectionPortLocation>Right</ConnectionPortLocation>
               <Size>
-                <Left>-1065</Left>
-                <Right>-1045</Right>
-                <Top>-1942,59637364683</Top>
-                <Bottom>-1922,59637364683</Bottom>
+                <Left>-1063,88888888889</Left>
+                <Right>-1043,88888888889</Right>
+                <Top>-1947,04081809127</Top>
+                <Bottom>-1927,04081809127</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1875,10 +2145,10 @@
               <PortDefenitionGuid>{07d79d69-27ed-4c78-8296-d94f5d775c0c}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,57470655395</Left>
-                <Right>-1295,57470655395</Right>
-                <Top>-1987,54625188433</Top>
-                <Bottom>-1967,54625188433</Bottom>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-2016,59584741694</Top>
+                <Bottom>-1996,59584741694</Bottom>
               </Size>
             </PortPainter>
             <PortPainter>
@@ -1887,10 +2157,46 @@
               <PortDefenitionGuid>{f48335d5-77c9-4feb-8ad6-4fc4ffccbc3c}</PortDefenitionGuid>
               <ConnectionPortLocation>Left</ConnectionPortLocation>
               <Size>
-                <Left>-1315,57470655395</Left>
-                <Right>-1295,57470655395</Right>
-                <Top>-2018,79404473181</Top>
-                <Bottom>-1998,79404473181</Bottom>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-2046,67196640308</Top>
+                <Bottom>-2026,67196640308</Bottom>
+              </Size>
+            </PortPainter>
+            <PortPainter>
+              <Name>ERROR</Name>
+              <GUID>{9e31d77c-d15d-416f-9dae-21a0f0142458}</GUID>
+              <PortDefenitionGuid>{455fff93-0b44-46fb-85e6-c687904498d1}</PortDefenitionGuid>
+              <ConnectionPortLocation>Left</ConnectionPortLocation>
+              <Size>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1988,45472951317</Top>
+                <Bottom>-1968,45472951317</Bottom>
+              </Size>
+            </PortPainter>
+            <PortPainter>
+              <Name>ERROR</Name>
+              <GUID>{d4893e15-b062-4c90-ab9e-75b950f8e642}</GUID>
+              <PortDefenitionGuid>{3e7f545d-f0b6-4a0e-86e1-50080f9f4c44}</PortDefenitionGuid>
+              <ConnectionPortLocation>Left</ConnectionPortLocation>
+              <Size>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1862,57831952063</Top>
+                <Bottom>-1842,57831952063</Bottom>
+              </Size>
+            </PortPainter>
+            <PortPainter>
+              <Name>ERROR</Name>
+              <GUID>{e721a197-9bd1-4e7d-b5f1-5b4740bf8881}</GUID>
+              <PortDefenitionGuid>{9c561d0c-7246-4307-a41a-80cbe4c7d930}</PortDefenitionGuid>
+              <ConnectionPortLocation>Left</ConnectionPortLocation>
+              <Size>
+                <Left>-1314,46359544284</Left>
+                <Right>-1294,46359544284</Right>
+                <Top>-1829,35609729841</Top>
+                <Bottom>-1809,35609729841</Bottom>
               </Size>
             </PortPainter>
           </PortPaintersList>
@@ -1903,7 +2209,7 @@
             <RunnableInstance>
               <Name>OneTimingEvent_Template</Name>
               <GUID>{d5dc3ac3-8d09-4b17-80bf-4d0a2732ff13}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>1</StartupOrder>
               <DefenitionGuid>{493c1518-d288-4b93-b688-f7f8dbaf3360}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListOneTime>
@@ -1965,7 +2271,7 @@
             <RunnableInstance>
               <Name>OneTimingEvent_Template</Name>
               <GUID>{d13ebdff-a923-427d-9654-f87b54b5c4cf}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>2</StartupOrder>
               <DefenitionGuid>{731d9c7b-64b0-4654-84fe-518dbe1cba56}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListOneTime>
@@ -2043,7 +2349,7 @@
             <RunnableInstance>
               <Name>etiXXXEvent</Name>
               <GUID>{ca301b65-1ff5-40f9-b91f-d12a8b927cb8}</GUID>
-              <StartupOrder>0</StartupOrder>
+              <StartupOrder>5</StartupOrder>
               <DefenitionGuid>{75a44f53-27cc-4ac5-bc0a-817b8e1ab899}</DefenitionGuid>
             </RunnableInstance>
           </AutosarEventInstancesListTiming>
@@ -2070,23 +2376,34 @@
           <Visible>True</Visible>
           <Anchors>
             <AnchorPoint>
-              <X>-1375</X>
-              <Y>-1160</Y>
+              <X>-1380</X>
+              <Y>-1260</Y>
             </AnchorPoint>
           </Anchors>
         </Connection>
         <Connection>
           <Name>CoolerTemperature_Temperature_WebPageStatus_CoolerTemperature</Name>
-          <GUID>{f6c6bf76-0b0e-44bb-af0a-2a95a905eeec}</GUID>
+          <GUID>{cd5813cd-ed50-47e2-ab7b-3423a0e38f5d}</GUID>
           <PortPainter1Guid>{90418086-623d-49a7-b6b9-b432655e5d27}</PortPainter1Guid>
           <PortPainter2Guid>{23ad97eb-27a5-4f19-a304-aa4001b8476f}</PortPainter2Guid>
           <Visible>True</Visible>
-          <Anchors>
-            <AnchorPoint>
-              <X>-1425</X>
-              <Y>-1815,70347866322</Y>
-            </AnchorPoint>
-          </Anchors>
+          <Anchors />
+        </Connection>
+        <Connection>
+          <Name>EcoMode_Active_FreezerManager_EconomeMode</Name>
+          <GUID>{9327b773-d3eb-49af-acb7-10b100d135f8}</GUID>
+          <PortPainter1Guid>{7943b754-2b79-46cb-b19a-829b1b593365}</PortPainter1Guid>
+          <PortPainter2Guid>{368bec0e-1459-4974-ace5-3e5dbef1ba37}</PortPainter2Guid>
+          <Visible>True</Visible>
+          <Anchors />
+        </Connection>
+        <Connection>
+          <Name>EcoMode_Active_WebPageStatus_EcoMode</Name>
+          <GUID>{04585725-d9c7-45e0-8746-a84aa66cbb56}</GUID>
+          <PortPainter1Guid>{7943b754-2b79-46cb-b19a-829b1b593365}</PortPainter1Guid>
+          <PortPainter2Guid>{e721a197-9bd1-4e7d-b5f1-5b4740bf8881}</PortPainter2Guid>
+          <Visible>True</Visible>
+          <Anchors />
         </Connection>
         <Connection>
           <Name>FreezerManager_Fan_Fan_Control</Name>
@@ -2147,22 +2464,17 @@
           <Anchors>
             <AnchorPoint>
               <X>-1410</X>
-              <Y>-1145</Y>
+              <Y>-1245</Y>
             </AnchorPoint>
           </Anchors>
         </Connection>
         <Connection>
           <Name>FreezerTemperature_Temperature_WebPageStatus_FreezerTemperature</Name>
-          <GUID>{538e4d24-6abc-4761-95b8-fb0a31a1e94c}</GUID>
+          <GUID>{a0f79efd-36c8-4561-bc91-fc8a8f3a7aa4}</GUID>
           <PortPainter1Guid>{7d897170-33a8-45bb-9a34-9d85b15d78c8}</PortPainter1Guid>
           <PortPainter2Guid>{ea5f19b0-25df-446a-b2f6-e931c8a548a3}</PortPainter2Guid>
           <Visible>True</Visible>
-          <Anchors>
-            <AnchorPoint>
-              <X>-1410</X>
-              <Y>-1765</Y>
-            </AnchorPoint>
-          </Anchors>
+          <Anchors />
         </Connection>
         <Connection>
           <Name>HeaterChecker_Status_FreezerManager_DefreezeRelayStatus</Name>
@@ -2247,6 +2559,14 @@
           <Anchors />
         </Connection>
         <Connection>
+          <Name>SuperFreeze_Active_WebPageStatus_SuperFreeze</Name>
+          <GUID>{7cc2549e-e921-4d32-84a7-3e8f83524f91}</GUID>
+          <PortPainter1Guid>{35e9ffa8-0098-4b92-a716-b902ee29b9a6}</PortPainter1Guid>
+          <PortPainter2Guid>{d4893e15-b062-4c90-ab9e-75b950f8e642}</PortPainter2Guid>
+          <Visible>True</Visible>
+          <Anchors />
+        </Connection>
+        <Connection>
           <Name>WebPageMqttSettings_Register_WebServer_Registration</Name>
           <GUID>{178a65c5-d82a-4c16-8a81-efa82c7dbafa}</GUID>
           <PortPainter1Guid>{0971b65d-3a47-44d1-b91a-c0f1e601755b}</PortPainter1Guid>
@@ -2261,6 +2581,19 @@
           <PortPainter2Guid>{c2babf30-80ea-4a25-ae9e-33c0b02c6ee0}</PortPainter2Guid>
           <Visible>True</Visible>
           <Anchors />
+        </Connection>
+        <Connection>
+          <Name>WebPageStatus_EconomeModeActivation_EcoMode_Activation</Name>
+          <GUID>{516b83b1-8cb3-47ff-8e17-71aa21435e4c}</GUID>
+          <PortPainter1Guid>{9e31d77c-d15d-416f-9dae-21a0f0142458}</PortPainter1Guid>
+          <PortPainter2Guid>{c3c4464f-a777-4c95-8013-a0b54d627954}</PortPainter2Guid>
+          <Visible>True</Visible>
+          <Anchors>
+            <AnchorPoint>
+              <X>-1790</X>
+              <Y>-1435</Y>
+            </AnchorPoint>
+          </Anchors>
         </Connection>
         <Connection>
           <Name>WebPageStatus_NewFreezerSetPoints_Settings_NewFreezerSetPoints</Name>

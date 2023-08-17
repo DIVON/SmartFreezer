@@ -19,10 +19,8 @@
 
 /* END OF INCLUDES */
 
-
 /* MACROS */
 /* END OF MACROS */
-
 
 /* TYPE DEFINITIONS */
 
@@ -33,7 +31,7 @@ public:
     WebServer(const Rte_WebServer &Rte);
 
     /* Component runnables */
-    Std_ReturnType ruRegisterWebPage(uint8 * page, uint8 * handleFunction);
+    Std_ReturnType ruRegisterWebPage(const uint8 * page, uint8 * handleFunction);
 
 protected:
     /* Make other functions here */ 
@@ -43,10 +41,8 @@ private:
 
 /* END OF TYPE DEFINITIONS */
 
-
 /* EXTERNAL VARIABLES */
 /* END OF EXTERNAL VARIABLES */
-
 
 /* GLOBAL FUNCTION DECLARATIONS */
 /* END OF GLOBAL FUNCTION DECLARATIONS */

@@ -52,8 +52,8 @@ public:
     Rte_Base_Relay(const Rte_Relay &rte) : Rte(rte) {} 
 
     /* Abstract component's runnables */
-    virtual Std_ReturnType ruSwitchOff(void) = 0;
-    virtual Std_ReturnType ruSwitchOn(void) = 0;
+    virtual Std_ReturnType ruClose(void) = 0;
+    virtual Std_ReturnType ruOpen(void) = 0;
 protected:
     const Rte_Relay &Rte;
 private:

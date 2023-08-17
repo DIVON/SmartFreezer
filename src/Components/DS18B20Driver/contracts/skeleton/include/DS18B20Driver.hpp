@@ -19,10 +19,8 @@
 
 /* END OF INCLUDES */
 
-
 /* MACROS */
 /* END OF MACROS */
-
 
 /* TYPE DEFINITIONS */
 
@@ -33,7 +31,8 @@ public:
     DS18B20Driver(const Rte_DS18B20Driver &Rte);
 
     /* Component runnables */
-    void ruRefresh(const Rte_DS18B20Driver * const instance);
+    void ruInit(void);
+    void ruRefresh(void);
 
 protected:
     /* Make other functions here */ 
@@ -43,10 +42,8 @@ private:
 
 /* END OF TYPE DEFINITIONS */
 
-
 /* EXTERNAL VARIABLES */
 /* END OF EXTERNAL VARIABLES */
-
 
 /* GLOBAL FUNCTION DECLARATIONS */
 /* END OF GLOBAL FUNCTION DECLARATIONS */

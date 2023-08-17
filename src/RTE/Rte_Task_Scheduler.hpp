@@ -1,5 +1,5 @@
 /*
- * file: Rte_Task_Scheduler.h
+ * file: Rte_Task_Scheduler.hpp
  *
  * This file contains extern functions defenitions and variables for organizing task scheduling.
  *
@@ -9,15 +9,15 @@
  *
  *
  */
-#ifndef RTE_TASK_SCHEDULER_H
-#define RTE_TASK_SCHEDULER_H
+#ifndef RTE_TASK_SCHEDULER_HPP
+#define RTE_TASK_SCHEDULER_HPP
 
 #include "Rte_DataTypes.hpp"
 
-extern volatile boolean timeEventOccured;
+extern volatile bool timeEventOccured;
 
 void DoScheduling(void);
 
-#endif /* RTE_TASK_SCHEDULER_H */
+#endif /* RTE_TASK_SCHEDULER_HPP */
 
 /* End of file */

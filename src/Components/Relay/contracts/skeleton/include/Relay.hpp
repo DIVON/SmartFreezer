@@ -19,10 +19,8 @@
 
 /* END OF INCLUDES */
 
-
 /* MACROS */
 /* END OF MACROS */
-
 
 /* TYPE DEFINITIONS */
 
@@ -33,8 +31,8 @@ public:
     Relay(const Rte_Relay &Rte);
 
     /* Component runnables */
-    Std_ReturnType ruSwitchOff(void);
-    Std_ReturnType ruSwitchOn(void);
+    Std_ReturnType ruClose(void);
+    Std_ReturnType ruOpen(void);
 
 protected:
     /* Make other functions here */ 
@@ -44,10 +42,8 @@ private:
 
 /* END OF TYPE DEFINITIONS */
 
-
 /* EXTERNAL VARIABLES */
 /* END OF EXTERNAL VARIABLES */
-
 
 /* GLOBAL FUNCTION DECLARATIONS */
 /* END OF GLOBAL FUNCTION DECLARATIONS */

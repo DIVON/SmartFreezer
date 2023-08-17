@@ -17,7 +17,7 @@
 #include <NoFrostFreezer.hpp>
 #include <Relay.hpp>
 #include <Settings.hpp>
-#include <SuperFreeze.hpp>
+#include <Switcher.hpp>
 #include <WebPageMqttSettings.hpp>
 #include <WebPageStatus.hpp>
 #include <WebPageWiFiSettings.hpp>
@@ -53,7 +53,7 @@ Settings::Settings(const Rte_Settings &Rte):Rte_Base_Settings(Rte)
 {
 }
 
-SuperFreeze::SuperFreeze(const Rte_SuperFreeze &Rte):Rte_Base_SuperFreeze(Rte)
+Switcher::Switcher(const Rte_Switcher &Rte):Rte_Base_Switcher(Rte)
 {
 }
 

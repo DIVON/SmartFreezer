@@ -13,6 +13,7 @@
 /* INCLUDES */
 
 #include "DefreezeRelay.hpp"
+#include "Arduino.h"
 
 /* END OF INCLUDES */
 
@@ -49,7 +50,14 @@
 
 void DefreezeRelay::ruRefresh(void)
 {
-    
+    if (digitalRead(Rte.CData_Pin()) != 0)
+    {
+        Rte.Status.Write_Status(enDefreezeRelayStatus::DRS_CLOSED);
+    }
+    else
+    {
+        Rte.Status.Write_Status(enDefreezeRelayStatus::DRS_OPEN);
+    }
 }
 
 /* END OF PUBLIC FUNCTION DEFINITIONS */

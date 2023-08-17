@@ -51,7 +51,7 @@ public:
     Rte_Base_WebServer(const Rte_WebServer &rte) : Rte(rte) {} 
 
     /* Abstract component's runnables */
-    virtual Std_ReturnType ruRegisterWebPage(uint8 * page, uint8 * handleFunction) = 0;
+    virtual Std_ReturnType ruRegisterWebPage(const uint8 * page, uint8 * handleFunction) = 0;
 protected:
     const Rte_WebServer &Rte;
 private:

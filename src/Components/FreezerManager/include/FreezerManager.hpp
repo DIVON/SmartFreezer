@@ -16,6 +16,7 @@
 /* INCLUDES */
 
 #include "Rte_FreezerManager.hpp"
+#include "ETSRClock.hpp"
 
 /* END OF INCLUDES */
 
@@ -34,11 +35,34 @@ public:
 
     /* Component runnables */
     void ruRefresh(void);
-
+    void ruStartupTimeCheck(void);
 protected:
-    /* Make other functions here */ 
+    void StartupWaiting();
+    void StateFreezing();
+    void StateDefreezing();
+    void StateKeeping();
 private:
+    enum class FreezingState
+    {
+        /*
+         * Показывает, прошло ли время для запуска охлаждения.
+         * Сразу после запуска нельзя запускать охлаждение, т.к. это может привести к клину компрессора
+         */
+        StartupWaiting,
+        Freezing,
+        Defreezing,
+        Keeping
+    };
 
+    FreezingState  _freezingState = FreezingState::StartupWaiting;
+    sdtTime _totalFreezingTimeSec = 0;
+    sdtTime _totalDefreezingTimeSec = 0;
+
+    /* Время прошедшее с момента как разомкнулось реле разморозки при нагревании */
+    sdtTime _waitingDefreezeTimeSec = 0;
+    bool _defreezeRelayWasOpened = false;
+    bool _wasSwitchedOff = false;
+    sdtTime _switchOffTimeout = 0;
 };
 
 /* END OF TYPE DEFINITIONS */

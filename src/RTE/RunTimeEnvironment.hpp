@@ -21,7 +21,7 @@
 #include "Rte_NoFrostFreezer.hpp"
 #include "Rte_Relay.hpp"
 #include "Rte_Settings.hpp"
-#include "Rte_SuperFreeze.hpp"
+#include "Rte_Switcher.hpp"
 #include "Rte_WebPageMqttSettings.hpp"
 #include "Rte_WebPageStatus.hpp"
 #include "Rte_WebPageWiFiSettings.hpp"
@@ -35,6 +35,8 @@
 /*
  * Rte tasks 
  */
+void Rte_Task_Runnable_OsTask1ms(void);
+void Rte_Task_Runnable_Init(void);
 
 #endif /* RUN_TIME_ENVIRONMENT_HPP */
 
